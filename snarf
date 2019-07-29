@@ -1,0 +1,12 @@
+#!/bin/sh
+cd $HOME/hat
+cp log log.bak
+curl -s http://languagehat.com | grep 'class="recentcomments"'  |
+        grep -o -P 'http://languagehat.com/.*?</a>' >>snarflog
+if [ -e recreating ]
+then  exit
+fi
+
+cat log snarflog | ./winnow >newlog  # generates hat.html by side effect
+rm -f snarflog
+mv newlog log

@@ -1,0 +1,12 @@
+#!/bin/sh
+touch recreating
+rm -rf pages
+mkdir -p pages
+./getpages 
+./make-index
+rm -rf posts
+mkdir -p posts
+./make-getposts
+./getposts
+./make-log
+rm -f recreating

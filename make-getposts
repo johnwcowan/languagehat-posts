@@ -1,0 +1,3 @@
+#!/bin/sh
+sed -n 's;\(http://languagehat.com/\(.*\)/\)|.*$;wget -q \1 -O posts/\2;p' <index >getposts
+chmod a+x getposts

@@ -1,0 +1,2 @@
+#!/bin/sh
+sed -n '/entry-title/s/.*entry-title"><a href="\(.*\)" rel="bookmark">\(.*\)<.a><.h2>/\1|\2/p' >index pages/? pages/?? pages/??? pages/????

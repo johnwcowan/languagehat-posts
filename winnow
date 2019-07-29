@@ -1,0 +1,60 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Time::Piece;
+
+my %titles = ();		# maps pages to titles
+my %lastfrag = ();		# maps pages to last fragment numbers
+my %pages = ();			# maps last fragment numbers to pages
+my $heading = "Commented-On Language Hat Posts";
+open(HTML, ">../HTML/hat.html");
+
+print HTML "<html><head><title>$heading</title>\n";
+print HTML "<meta charset=\"UTF-8\"></head>\n";
+print HTML "<meta http-equiv=\"refresh\" content=\"60\"/>\n";
+print HTML "<body vlink='blue' link='red'>\n";
+print HTML "<h2>$heading</h2>\n";
+print HTML "<p>";
+print HTML localtime->strftime('%Y-%m-%d %H:%M:%S');
+print HTML "</p>\n";
+
+# Initialize three tables above
+while (<>) {
+	chomp;
+	my ($url, $title) = split(/">/);
+	my ($page, $frag) = split(/#comment-/, $url);
+	$titles{$page} = $title;
+	$frag += 0;		# force numeric reading
+	my $oldfrag = $lastfrag{$page};
+	$oldfrag = (defined($oldfrag)) ? $oldfrag : 0;
+	my $newfrag = ($frag > $oldfrag) ? $frag : $oldfrag;
+	$lastfrag{$page} = $newfrag;
+	}
+
+foreach my $page (keys %lastfrag) {
+	$pages{$lastfrag{$page}} = $page;
+	}
+
+# Pick random page and output link
+my @pages = keys %titles;
+my $rand_page = $pages[int(rand(scalar @pages))];
+print HTML "<p><b><a href='$rand_page'>";
+print HTML "Random Link</a></b></p>\n";
+
+# Output links in reverse fragment order
+foreach my $frag (sort { $b <=> $a } keys %pages) {
+	my $page = $pages{$frag};
+	my $url = $page . "#comment-" . $frag;
+	my $title = $titles{$page};
+        $title="BUG: title unknown" if !defined($title);
+	print HTML "<p>";
+	print HTML "<a href='$url'>";
+	print HTML $title;
+	print HTML "</p>\n";
+	print $url, '">', $title, "\n";   # Output new log
+	}
+
+print HTML "Now you may think that this is the end.  Well it is.</br>\n";
+print HTML "But there's some that go on singing.";
+print HTML "</body></html>\n";
+close(HTML);

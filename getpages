@@ -1,0 +1,10 @@
+#!/bin/sh
+# Reload all LH pages.  Argument is max page to load
+wget -q http://languagehat.com -O pages/1
+for i in $(seq 2 10000)
+do  wget -q http://languagehat.com/page/$i -O pages/$i
+    if [ -s pages/$i ]
+    then  :
+    else  exit
+    fi
+done

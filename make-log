@@ -1,0 +1,7 @@
+#!/bin/sh
+cd posts
+for f in *
+do  title="$(grep /$f/ ../index | cut -d'|' -f2)"
+    comurl=$(tac $f | grep '#comment-.* at ' | head -1 | sed -n 's/.*"\(.*\)".*/\1/p')
+    echo "$comurl\">$title</a>"
+done | ../genkeys | sort -n -r | cut -d'|' -f2 >../log
