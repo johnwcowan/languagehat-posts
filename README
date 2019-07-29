@@ -1,0 +1,9 @@
+Make sure all the files in this repo are executable.  Also make sure that
+wget, sed, grep, head, sort, cut, curl, perl (version 5) are available.
+
+To create or recreate the "Commented-On Language Hat Posts" file,
+execute the `recreate` script.
+
+To keep it updated, run `snarf` from cron.  I run it every minute, but
+you can run it less often if you like.  However, you will lose updates
+if there are more than 10 new comments in the time between runs.
