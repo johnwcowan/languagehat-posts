@@ -10,3 +10,4 @@ mkdir -p posts
 ./getposts
 ./make-log
 rm -f recreating
+./snarf
