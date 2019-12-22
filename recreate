@@ -1,13 +1,24 @@
 #!/bin/sh
+alias log='echo $(date) >>stage'
 touch recreating
+rm -f stage
+log recreating
 rm -rf pages
 mkdir -p pages
+log 'cleanup done'
 ./getpages 
+log 'pages fetched'
 ./make-index
+log 'index built'
 rm -rf posts
+log 'posts removed'
 mkdir -p posts
 ./make-getposts
+log 'getpost script built'
 ./getposts
+log 'posts fetched'
 ./make-log
+log 'log built'
 rm -f recreating
 ./snarf
+log 'snarfed'
